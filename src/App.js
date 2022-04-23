@@ -16,8 +16,13 @@ function App() {
   /*
 1. here there will be a function named handleSearch
 to handle search by query, and it will be passed as props to header
-
   */
+
+  const handleSerchQuery = (search) => {
+    fetch(`http://localhost:5000/notes?user_name=${search}`)
+      .then((res) => res.json())
+      .then((data) => setNotes(data));
+  };
 
   /*2. here there will be a function named handleDelete
 to delete a note, and it will be passed as props to NoteCard that will be triggered using delete button.
@@ -36,11 +41,11 @@ to post data to backend, and it will be passed as props to InputFrom.
 
   return (
     <div className="App">
-      <Header />
+      <Header handleSerchQuery={handleSerchQuery} />
       <InputForm />
       <div className="row row-cols-1 row-cols-md-3 g-4 m-2">
         {notes.map((note) => (
-          <NoteCard note={note} />
+          <NoteCard key={note._id} note={note} />
         ))}
       </div>
     </div>
